@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{option_a}} vs {{option_b}}!</title>
+    <base href="/index.html">
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <meta name="keywords" content="docker-compose, docker, stack">
+    <meta name="author" content="Tutum dev team">
+    <link rel='stylesheet' href="{{ url_for('static',filename='stylesheets/style.css') }}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div id="content-container">
+      <div id="content-container-center">
+        <h3>Selecciona el usuario a comparar</h3>
+        <form name='form' method="POST" action="/">
+          <input type="text" id="idusuario" name="idusuario" required  />
+          <input type="submit"/>
+        </form>
+        <ul>
+          <li>Patrick C</li>
+          <li>Heather</li>
+          <li>Bryan</li>
+          <li>Patrick T</li>
+          <li>Thomas</li>
+          <li>aaron</li>
+          <li>vanessa</li>
+          <li>greg</li>
+          <li>brian</li>
+          <li>ben</li>
+          <li>Katherine</li>
+          <li>Jonathan</li>
+          <li>Zwe</li>
+          <li>Erin</li>
+          <li>Chris</li>
+          <li>Zak</li>
+          <li>Matt</li>
+          <li>Chris_duplicated_0</li>
+          <li>Josh</li>
+          <li>Amy</li>
+          <li>Valerie</li>
+          <li>Gary</li>
+          <li>Stephen</li>
+          <li>Jessica</li>
+          <li>Jeff</li>
+        </ul>
+      </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    {% if vote %}
+    <script>
+      var vote = "{{vote}}";
+
+      if(vote == "a"){
+        $(".a").prop('disabled', true);
+        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');
+        $(".b").css('opacity','0.5');
+      }
+      if(vote == "b"){
+        $(".b").prop('disabled', true);
+        $(".b").html('{{option_b}} <i class="fa fa-check-circle"></i>');
+        $(".a").css('opacity','0.5');
+      }
+    </script>
+    {% endif %}
+  </body>
+</html>

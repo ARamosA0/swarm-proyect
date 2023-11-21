@@ -1,0 +1,6 @@
+Flask
+Redis
+gunicorn
+
+pandas
+numpy
