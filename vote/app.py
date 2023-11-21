@@ -59,9 +59,10 @@ def get_data():
     # 100K --> wget https://files.grouplens.org/datasets/movielens/ml-100k.zip 
     # 1M --> wget https://files.grouplens.org/datasets/movielens/ml-1m.zip
     # 10M --> wget https://files.grouplens.org/datasets/movielens/ml-10m.zip
-    #movie_lens_to_binary('/usr/local/app/data/ratings.dat', 'output_binary.bin')
-    #data = binary_to_pandas_with_stats('output_binary.bin', num_rows=10)
-    df = pd.read_csv('ratings.csv')
+    movie_lens_to_binary('/usr/local/app/data/ratings.dat', 'output_binary.bin')
+    data = binary_to_pandas_with_stats('output_binary.bin', num_rows=10)
+    print(data)
+    #df = pd.read_csv('ratings.data')
     consolidated_df = consolidate_data(df)
     return consolidated_df
 

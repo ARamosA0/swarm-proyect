@@ -9,7 +9,7 @@ services:
       context: ./vote
       target: dev
     depends_on:
-      dbgeneral:
+      db:
         condition: service_healthy
     healthcheck: 
       test: ["CMD", "curl", "-f", "http://localhost"]
@@ -92,7 +92,6 @@ services:
 
 volumes:
   db-data:
-  db-data-general:
 
 networks:
   front-tier:
