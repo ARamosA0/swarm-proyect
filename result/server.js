@@ -1,7 +1,6 @@
 var express = require('express'),
     async = require('async'),
     { Pool } = require('pg'),
-    cookieParser = require('cookie-parser'),
     app = express(),
     server = require('http').Server(app),
     io = require('socket.io')(server);
@@ -9,9 +8,7 @@ var express = require('express'),
 var port = process.env.PORT || 4000;
 
 io.on('connection', function (socket) {
-
   socket.emit('message', { text : 'Welcome!' });
-
   socket.on('subscribe', function (data) {
     socket.join(data.channel);
   });
@@ -36,40 +33,38 @@ async.retry(
       return console.error("Giving up");
     }
     console.log("Connected to db");
-    getVotes(client);
+    getNeighbors(client);
   }
 );
 
-function getVotes(client) {
-  client.query('SELECT * FROM reco', [], function(err, result) {
+// My functions
+function getNeighbors(client) {
+  client.query('SELECT user_id, neighbor_id FROM neighbors', [], function(err, result) {
     if (err) {
       console.error("Error performing query: " + err);
     } else {
-      var votes = collectVotesFromResult(result);
-      console.log("//////////////////////////////////////////////////////")
-      //console.log(result.rows)
-      var recom = result.rows[result.rows.length - 1] || {id:0, value: 0}
-      console.log(recom)
-      io.sockets.emit("recomendaciones", JSON.stringify(recom));
+      var neighbors = collectNeighborsFromResult(result);
+      io.sockets.emit("neighbors", JSON.stringify(neighbors));
+      console.log("Neighbors:", JSON.stringify(neighbors, null, 2));
     }
 
-    setTimeout(function() {getVotes(client) }, 1000);
+    setTimeout(function() { getNeighbors(client) }, 1000);
   });
 }
 
-function collectVotesFromResult(result) {
-  var votes ={a:0};
+function collectNeighborsFromResult(result) {
+  var neighbors = {};
 
   result.rows.forEach(function (row) {
-  //console.log("//////////////////////////////////////////////////////////////")
- // console.log(row)
-    votes[row.vote] = parseInt(row.count);
-  }); 
-  return votes;
+    if (!neighbors[row.user_id]) {
+      neighbors[row.user_id] = [];
+    }
+    neighbors[row.user_id].push(row.neighbor_id);
+  });
+
+  return neighbors;
 }
 
-app.use(cookieParser());
-app.use(express.urlencoded());
 app.use(express.static(__dirname + '/views'));
 
 app.get('/', function (req, res) {
@@ -80,3 +75,4 @@ server.listen(port, function () {
   var port = server.address().port;
   console.log('App running on port ' + port);
 });
+
