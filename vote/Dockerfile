@@ -14,7 +14,6 @@ WORKDIR /usr/local/app
 # Install our requirements.txt
 COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-RUN conda install -c conda-forge scikit-surprise
 
 # Define a stage specifically for development, where it'll watch for
 # filesystem changes
