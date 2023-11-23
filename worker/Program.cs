@@ -97,9 +97,9 @@ namespace Worker
             Console.Error.WriteLine("Connected to db");
 
             var command = connection.CreateCommand();
-            command.CommandText = @"CREATE TABLE IF NOT EXISTS reco (
-                                        id VARCHAR(255) NOT NULL UNIQUE,
-                                        value VARCHAR(255) NOT NULL
+            command.CommandText = @"CREATE TABLE IF NOT EXISTS neighbors (
+                                        user_id VARCHAR(255) NOT NULL UNIQUE,
+                                        neighbor_id VARCHAR(255) NOT NULL
                                     )";
             command.ExecuteNonQuery();
 
@@ -134,7 +134,7 @@ namespace Worker
                 .First(a => a.AddressFamily == AddressFamily.InterNetwork)
                 .ToString();
 
-        private static void UploadPostgres(NpgsqlConnection connection, string voter_id, string value){
+        private static void UploadPostgres(NpgsqlConnection connection, string user_id, string neighbor_id){
           var command = connection.CreateCommand();
             try
             {

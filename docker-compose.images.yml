@@ -28,7 +28,7 @@ services:
       - back-tier
 
   worker:
-    image: aldorama/swarm-worker
+    image: eddlihuisi/daea_movie_ratings-worker
     depends_on:
       redis:
         condition: service_healthy 

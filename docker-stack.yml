@@ -34,7 +34,7 @@ services:
       - backend
 
   worker:
-    image: aldorama/swarm-worker
+    image: eddlihuisi/daea_movie_ratings-worker
     networks:
       - frontend
       - backend
